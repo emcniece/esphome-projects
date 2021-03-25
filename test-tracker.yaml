@@ -1,0 +1,67 @@
+esphome:
+  name: test_tracker
+  platform: ESP32
+  board: pico32
+
+wifi:
+  ssid: "J.A.R.V.I.S"
+  password: "assemble"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Test Tracker Fallback Hotspot"
+    password: "y1Wll94VOtP7"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "qrEbtDHcxTJyA"
+
+ota:
+  password: "qrEbtDHcxTJyA"
+
+esp32_ble_tracker:
+  on_ble_advertise:
+    - mac_address: 98:09:CF:5B:B9:79
+      then:
+        - lambda: |-
+            ESP_LOGD("ble_adv", "New BLE device");
+            ESP_LOGD("ble_adv", "  address: %s", x.address_str().c_str());
+            ESP_LOGD("ble_adv", "  name: %s", x.get_name().c_str());
+            ESP_LOGD("ble_adv", "  Advertised service UUIDs:");
+            for (auto uuid : x.get_service_uuids()) {
+                ESP_LOGD("ble_adv", "    - %s", uuid.to_string().c_str());
+            }
+            ESP_LOGD("ble_adv", "  Advertised service data:");
+            for (auto data : x.get_service_datas()) {
+                ESP_LOGD("ble_adv", "    - %s: (length %i)", data.uuid.to_string().c_str(), data.data.size());
+            }
+            ESP_LOGD("ble_adv", "  Advertised manufacturer data:");
+            for (auto data : x.get_manufacturer_datas()) {
+                ESP_LOGD("ble_adv", "    - %s: (length %i)", data.uuid.to_string().c_str(), data.data.size());
+            }
+
+binary_sensor:
+  - platform: ble_presence
+    mac_address: 98:09:CF:5B:B9:79
+    name: "ESP32 BLE Presence Eric Phone MAC"
+  - platform: ble_presence
+    service_uuid: '6b4343ec-269b-4593-89cc-fd369c9798a4'
+    name: "ESP32 BLE Presence Eric Phone uuid"
+
+  - platform: ble_presence
+    service_uuid: 'c927bf3b-5b96-d564-c6e0-6dd7df7875f3'
+    name: "ESP32 BLE Presence test beacon"
+
+
+sensor:
+  - platform: ble_rssi
+    mac_address: 98:09:CF:5B:B9:79
+    name: "BLE Eric phone RSSI value"
+  - platform: ble_rssi
+    service_uuid: 'c927bf3b-5b96-d564-c6e0-6dd7df7875f3'
+    name: "BLE test beacon RSSI value"

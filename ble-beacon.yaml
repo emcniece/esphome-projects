@@ -1,0 +1,29 @@
+esphome:
+  name: bed_beacon
+  platform: ESP32
+  board: nodemcu-32s
+
+wifi:
+  ssid: "J.A.R.V.I.S"
+  password: "assemble"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Bed Beacon Fallback Hotspot"
+    password: "MtKOtcuqnydN"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "qrEbtDHcxTJyA"
+
+ota:
+  password: "qrEbtDHcxTJyA"
+
+esp32_ble_beacon:
+  type: iBeacon
+  uuid: c927bf3b-5b96-d564-c6e0-6dd7df7875f3

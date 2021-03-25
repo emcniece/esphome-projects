@@ -1,0 +1,52 @@
+esphome:
+  name: bed_tracker
+  platform: ESP32
+  board: nodemcu-32s
+
+wifi:
+  ssid: "J.A.R.V.I.S"
+  password: "assemble"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Bed Beacon Fallback Hotspot"
+    password: "MtKOtcuqnydN"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "qrEbtDHcxTJyA"
+
+ota:
+  password: "qrEbtDHcxTJyA"
+
+# esp32_ble_beacon:
+#   type: iBeacon
+#   uuid: c927bf3b-5b96-d564-c6e0-6dd7df7875f3
+
+esp32_ble_tracker:
+
+binary_sensor:
+  - platform: ble_presence
+    mac_address: 98:09:CF:5B:B9:79
+    name: "ESP32 BLE Presence Eric Phone MAC"
+  - platform: ble_presence
+    service_uuid: '6b4343ec-269b-4593-89cc-fd369c9798a4'
+    name: "ESP32 BLE Presence Eric Phone uuid"
+
+  - platform: ble_presence
+    service_uuid: 'c927bf3b-5b96-d564-c6e0-6dd7df7875f3'
+    name: "ESP32 BLE Presence test beacon"
+
+
+sensor:
+  - platform: ble_rssi
+    mac_address: 98:09:CF:5B:B9:79
+    name: "BLE Eric phone RSSI value"
+  - platform: ble_rssi
+    service_uuid: 'c927bf3b-5b96-d564-c6e0-6dd7df7875f3'
+    name: "BLE test beacon RSSI value"
