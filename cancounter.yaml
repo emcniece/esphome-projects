@@ -1,0 +1,60 @@
+esphome:
+  name: cancounter
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi_iot_ssid
+  password: !secret wifi_iot_pass
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Cancounter Fallback Hotspot"
+    password: !secret wifi_ap_pass
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret api_ota_password
+
+ota:
+  password: !secret api_ota_password
+
+# Todo:
+# - LCD display
+# - Global with restore_value https://esphome.io/guides/automations.html#automation
+
+binary_sensor:
+- platform: gpio
+  id: can_sensor_add
+  pin:
+    number: D1
+    mode: INPUT_PULLUP
+    inverted: true
+  on_click:
+    min_length: 50ms
+    max_length: 1000ms
+    then:
+    - homeassistant.service:
+        service: counter.increment
+        data:
+          entity_id: counter.pop_can_counter
+
+- platform: gpio
+  id: can_sensor_remove
+  pin:
+    number: D2
+    mode: INPUT_PULLUP
+    inverted: true
+  on_click:
+    min_length: 50ms
+    max_length: 1000ms
+    then:
+    - homeassistant.service:
+        service: counter.decrement
+        data:
+          entity_id: counter.pop_can_counter
