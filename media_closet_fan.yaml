@@ -1,0 +1,24 @@
+substitutions:
+  node_name: media-closet-fan
+  platform: ESP32
+  board: nodemcu-32s
+
+packages:
+  wifi: !include ./common/wifi.yaml
+  device_base: !include ./common/device_base.yaml
+
+logger:
+  level: VERBOSE
+
+output:
+  - platform: ledc
+    pin: GPIO19
+    frequency: 25000 Hz
+    id: closet_fan_pwm
+
+fan:
+  - platform: speed
+    output: closet_fan_pwm
+    name: "Media Closet Fan"
+    restore_mode: RESTORE_DEFAULT_ON
+

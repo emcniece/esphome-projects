@@ -1,28 +1,12 @@
-esphome:
-  name: attic
+substitutions:
+  node_name: attic
   platform: ESP8266
   board: d1_mini
 
-wifi:
-  ssid: "J.A.R.V.I.S"
-  password: "assemble"
+packages:
+  wifi: !include ./common/wifi.yaml
+  device_base: !include ./common/device_base.yaml
 
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Attic Fallback Hotspot"
-    password: "TTmJJG78gwKS"
-
-captive_portal:
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-  password: "qrEbtDHcxTJyA"
-
-ota:
-  password: "qrEbtDHcxTJyA"
 
 i2c:
   # defaults

@@ -1,0 +1,21 @@
+esphome:
+  name: ${node_name}
+  platform: ${platform}
+  board: ${board}
+  build_path: ./build/${node_name}
+
+# Enable logging
+# https://esphome.io/components/logger.html
+logger:
+  #level: ${log_level}
+
+
+captive_portal:
+
+
+# Enable Home Assistant API
+api:
+  password: !secret ha_api_password
+
+ota:
+  password: !secret ota_password

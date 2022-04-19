@@ -1,0 +1,9 @@
+wifi:
+  ssid: !secret iot_wifi_ssid
+  password: !secret iot_wifi_password
+  #domain: .yourdomain.lan
+  fast_connect: true
+
+  ap:
+    ssid: "${node_name} Hotspot"
+    password: !secret fallback_hotspot_password

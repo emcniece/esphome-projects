@@ -1,0 +1,19 @@
+substitutions:
+  node_name: workshop
+  platform: ESP8266
+  board: d1_mini
+
+packages:
+  wifi: !include ./common/wifi.yaml
+  device_base: !include ./common/device_base.yaml
+
+
+sensor:
+  - platform: dht
+    model: RHT03
+    pin: D1
+    temperature:
+      name: "Workshop Temperature"
+    humidity:
+      name: "Workshop Humidity"
+    update_interval: 60s

@@ -1,28 +1,12 @@
-esphome:
-  name: test_tracker
+substitutions:
+  node_name: test_tracker
   platform: ESP32
   board: pico32
 
-wifi:
-  ssid: "J.A.R.V.I.S"
-  password: "assemble"
+packages:
+  wifi: !include ./common/wifi.yaml
+  device_base: !include ./common/device_base.yaml
 
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Test Tracker Fallback Hotspot"
-    password: "y1Wll94VOtP7"
-
-captive_portal:
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-  password: "qrEbtDHcxTJyA"
-
-ota:
-  password: "qrEbtDHcxTJyA"
 
 esp32_ble_tracker:
   on_ble_advertise:
