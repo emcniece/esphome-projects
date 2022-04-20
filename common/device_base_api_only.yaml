@@ -1,16 +1,11 @@
+# Use this instead of device_base.yaml when you need to modify the `esphome:` block.
 esphome:
   name: ${node_name}
-  platform: ${platform}
-  board: ${board}
-  build_path: ./build/${node_name}
 
 # Enable logging
 # https://esphome.io/components/logger.html
 logger:
   #level: ${log_level}
-
-
-captive_portal:
 
 
 # Enable Home Assistant API
