@@ -1,0 +1,20 @@
+# Use this instead of device_base.yaml when you need to modify the `esphome:` block.
+esphome:
+  name: ${node_name}
+
+# Enable logging
+# https://esphome.io/components/logger.html
+logger:
+  #level: ${log_level}
+
+
+# Enable Home Assistant API
+api:
+  password: !secret ha_api_password
+
+ota:
+  password: !secret ota_password
+
+time:
+  - platform: sntp
+    id: my_time
