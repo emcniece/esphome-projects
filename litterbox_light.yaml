@@ -1,0 +1,52 @@
+substitutions:
+  device_name: litterbox
+
+esphome:
+  name: litterbox
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi_iot_ssid
+  password: !secret wifi_iot_pass
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Litterbox_light"
+    password: !secret wifi_ap_pass
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret api_ota_password
+
+ota:
+  password: !secret api_ota_password
+
+
+light:
+  - platform: neopixelbus
+    id: light_1
+    type: GRB
+    method: BIT_BANG
+    #pin: GPIO3
+    pin: D4
+    num_leds: 14
+    name: "${device_name} NeoPixel Light"
+    on_turn_on:
+      - delay: 180s
+      - light.turn_off: light_1
+
+
+binary_sensor:
+  - platform: gpio
+    pin: D1
+    name: "${device_name} PIR Sensor"
+    device_class: motion
+    on_press:
+      then:
+        - light.turn_on: light_1
