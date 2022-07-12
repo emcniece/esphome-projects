@@ -1,0 +1,64 @@
+substitutions:
+  device_name: front_irrigation
+
+esphome:
+  name: front_irrigation
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret iot_wifi_ssid
+  password: !secret iot_wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "front_irrigation"
+    password: !secret fallback_hotspot_password
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret ha_api_password
+
+ota:
+  password: !secret ota_password
+
+
+sensor:
+  - platform: pulse_counter
+    name: "Current water usage"
+    pin: D2
+    id: water_usage
+    update_interval: 10s # default: 60s
+    filters:
+    - lambda: return (x/330.0);
+    unit_of_measurement: "L/min"
+  
+  - platform: integration
+    name: Total Water usage"
+    unit_of_measurement: "L"
+    sensor: water_usage
+    time_unit: min
+  
+# https://thehomesmarthome.com/esphome-water-leak-detector-with-a-d1-mini-board/
+#   - platform: adc
+#     pin: A0
+#     icon: mdi:water-alert
+#     name: "Sprinkler Box Leak"
+#     id: sprinkler_box_leak
+#     update_interval: 3s
+#     filters:
+#       - multiply: 3.3
+#     internal: true
+
+# binary_sensor:
+#   - platform: template
+#     name: "Sprinkler Leak Status"
+#     # Edit the `< 2.55` for sensitivity adjust
+#     lambda: |-
+#          float analog = id(sprinkler_box_leak).state;
+#          return analog < 2.55; 
